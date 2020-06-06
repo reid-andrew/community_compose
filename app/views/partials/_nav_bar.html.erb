@@ -1,6 +1,9 @@
 <nav>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <ul class="nav justify-content-end">
+      <li class="navbar-brand">
+        <%= image_tag "logo_transparent_HORIZ.png", :class => "nav_image" %>
+      </li>
       <li class="nav-item">
         <a class="nav-link active" href='/users/dashboard'>Dashboard</a>
       </li>
@@ -17,7 +20,13 @@
         <%= link_to 'Create Score', '/scores/new', class: "nav-link active" %>
       </li>
       <li class="nav-item">
+        <%= link_to 'Messages', users_conversations_path, class: "nav-link active" %>
+      </li>
+      <li class="nav-item">
         <%= link_to 'Logout', logout_path, method: :delete, class: "nav-link active" %>
+      </li>
+      <li class="right">
+        You are logged in as <span style='color:white;'><%= current_user.username %></span>
       </li>
     </ul>
   </div>

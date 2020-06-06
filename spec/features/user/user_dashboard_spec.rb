@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'User Dashboard', type: :feature do
   describe 'As a logged in user when I visit the dashboard I can' do
     before(:each) do
-      @user = create(:user)
+      @user = create(:user, username: 'tylerpporter')
       allow_any_instance_of(ApplicationController).to receive(:current_user)
                                                   .and_return(@user)
       json_user_resp = File.read('spec/fixtures/flat/user.json')
@@ -28,7 +28,7 @@ RSpec.describe 'User Dashboard', type: :feature do
         end
       end
 
-      expect(page).to have_content("User Name: #{expected1[:username]}")
+      expect(page).to have_content(expected1[:username])
       within ('#score_count') do
         expect(page).to have_content("#{expected1[:ownedPublicScoreCount]}")
       end
@@ -38,7 +38,7 @@ RSpec.describe 'User Dashboard', type: :feature do
       within ('#follower_count') do
         expect(page).to have_content("#{expected1[:followersCount]}")
       end
-      expect(page).to have_content('My Scores:')
+      expect(page).to have_content('My Scores')
       within('.scores') do
         expect(page).to have_content(expected2[0][:title])
       end

@@ -1,34 +1,36 @@
-<h1>User Name: <%= @flat_user.user_info[:username] %></h1>
-<img src= "<%= @flat_user.user_info[:picture] %>" alt="..." class="img-thumbnail">
-<table class="table-sm">
-  <thead>
-    <tr>
-      <th scope="col">Scores</th>
-      <th scope="col">Following</th>
-      <th scope="col">Followers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="table-info">
-      <th id="score_count" scope="row"><%= @flat_user.user_info[:ownedPublicScoresCount] %></th>
-      <th id="following_count"><%= @flat_user.user_info[:followingCount] %></th>
-      <th id="follower_count"><%= @flat_user.user_info[:followersCount] %></th>
-    </tr>
-  </tbody>
-</table>
-
-<h2>My Scores:</h2>
-<section class='scores'>
-  <div class="card-columns">
-    <% if !(@flat_user.scores.empty?) %>
-      <% @flat_user.scores.each_with_index do |score, index| %>
-      <div class="card border-primary mb-3 h-5 " style="width: 18rem;">
-        <div id="score-<%= index %>" class="card-body">
-          <h3 class="card-title"><%= link_to score.title, scores_path(:params => {score_id: score.id}) %></h3>
-          <h6 class="card-subtitle mb-2 text-muted"><%= link_to 'Delete', score_path(score.id), method: :delete%></h6>
+<body class="dashboard">
+  <div class="container-fluid">
+      <table class="table-sm" style='height:50px;width:20%;'>
+        <thead>
+          <tr style='font-size: 20px;'>
+            <th scope="col">Scores</th>
+            <th scope="col">Following</th>
+            <th scope="col">Followers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-warning" style='text-indent:25px;font-size:20px;color: #0384fc;'>
+            <th id="score_count" scope="row"><%= @flat_user.user_info[:ownedPublicScoresCount] %></th>
+            <th id="following_count"><%= @flat_user.user_info[:followingCount] %></th>
+            <th id="follower_count"><%= @flat_user.user_info[:followersCount] %></th>
+          </tr>
+        </tbody>
+      </table>
+    <h2 class='center-headers'>My Scores</h2>
+    <section class='scores'>
+      <div class='center-box'>
+        <div class="card-columns">
+          <% if !(@flat_user.scores.empty?) %>
+            <% @flat_user.scores.each_with_index do |score, index| %>
+            <div class="card border-primary mb-3 h-5 " style="width: 95%; height: 12rem; border: 3px solid;">
+              <div id="score-<%= index %>" class="card-body">
+                <h3 class="card-title" style='text-align:center;'><%= link_to score.title, scores_path(:params => {score_id: score.id}) %></h3>
+                <h6 class="card-subtitle mb-2 text-muted" style='text-align:center;'><%= link_to 'Delete', score_path(score.id), method: :delete%></h6>
+              </div>
+            </div>
+            <% end %>
+          <% end %>
         </div>
-      </div>
-      <% end %>
-    <% end %>
+    </section>
   </div>
-</section>
+</body>

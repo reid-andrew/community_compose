@@ -1,0 +1,28 @@
+<body class='dashboard'>
+  <h1 class='exp-header'>Conversation with <%=@conversation.participants.select { |participant| participant[:username] != current_user.username }.first.username %></h1>
+  <h3 class='convo-subject'><%= @conversation.subject %></h3>
+  <% @conversation.receipts_for(current_user).each do |receipt| %>
+    <div id='message-<%= receipt.id%>'>
+      <% if !(receipt.deleted) %>
+        <div class='msg-card'>
+          <span class='user-comment'><%= receipt.message.sender.name %> commented:</span>
+          <div class="msg-body-card">
+            <p><%= receipt.message.body %></p>
+          </div>
+            <div class="msg-details">
+              <br><%= receipt.created_at.in_time_zone('America/Denver').strftime('%A, %d %b %Y %l:%M %p') %></br>
+              <%= link_to 'Delete Message', "/users/conversations/#{@conversation.id}/messages/#{receipt.id}", method: :delete%>
+            </div>
+        </div>
+    </div>
+    <% end %>
+  <% end %>
+  <div class="reply-box">
+  <%= form_tag users_conversation_messages_path(@conversation), method: :post do %>
+    <div>
+      <%= text_area_tag :body, nil, placeholder: "Message #{@conversation.participants.first.username}", style: 'width:53%' %>
+    </div>
+        <%= submit_tag 'Reply'%>
+  <% end %>
+  </div>
+</body>

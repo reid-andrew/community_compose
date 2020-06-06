@@ -1,13 +1,20 @@
-<h1>Scores From My Area</h1>
-<section class='scores'>
-  <div class="card-columns">
-    <% @explore_data.scores.each_with_index do |score, index| %>
-      <div class="card border-primary mb-3 h-5 " style="width: 18rem;">
-        <div id="score-<%= index %>" class="card-body">
-          <h3 class="card-title"><%= link_to score.title, scores_path(:params => {score_id: score.id}) %></h3>
-          <h6 class="card-subtitle mb-2 text-muted"><%= score.owner %></h6>
-        </div>
+<body class="explore">
+  <h1 class='exp-header'>Scores From My Area</h1>
+  <section class='scores'>
+    <div class='center-box'>
+      <div class="card-columns">
+        <% @explore_data.scores.each_with_index do |score, index| %>
+          <% unless score.owner.nil? %>
+            <div class="card border-primary mb-3 h-5 " style="width: 95%; height: 12rem; border: 3px solid;">
+              <div id="score-<%= index %>" class="card-body">
+                <h3 class="card-title"><%= link_to score.title, scores_path(:params => {score_id: score.id}) %></h3>
+                <h6 class="card-subtitle mb-2 text-muted"><span style=font-weight:bold;>Owner:</span> <%= score.owner %></h6>
+                <h6 class="card-subtitle mb-2 text-muted"><span style=font-weight:bold;>Distance Away:</span> <%= score.distance(@explore_data.distances) %> miles</h6>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
-    <% end %>
-  </div>
-</section>
+    </div>
+  </section>
+</body>

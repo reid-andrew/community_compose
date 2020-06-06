@@ -1,0 +1,49 @@
+<body class='conversation-index'>
+  <h1 class='exp-header'>Your Conversations</h1>
+  <div class="msg-card">
+    <% @conversations_facade.conversations.each do |conversation| %>
+      <div id='conversation-<%= conversation.id%>'>
+        <div class="msg-body-card">
+          <% if !(conversation.is_trashed?(current_user)) %>
+          <br> Conversation with <%=conversation.participants.select { |participant| participant[:username] != current_user.username }.first.username %> </br>
+            <p><span class='user-comment'><%= link_to conversation.subject, users_conversation_path(conversation)%></span></p>
+            <%= link_to 'Leave Conversation', users_conversation_path(conversation), method: :delete %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <div style='padding:20px;'>
+      <button type='button' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#new-conversation'>
+        Create New Conversation
+      </button>
+    </div>
+  </div>
+</body>
+
+
+<%= form_tag users_conversations_path, method: :post do %>
+  <div class="modal fade" id="new-conversation" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Choose Recipient: <%= select_tag :user_id, options_from_collection_for_select(@conversations_facade.recipients, :id, :username) %></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <%= text_field_tag :subject, nil, placeholder: 'Subject', style: 'width:100%'%>
+          </div>
+          <div class="field">
+            <%= text_area_tag :body, nil, placeholder: 'Start a new conversation', style: 'width:100%', cols: 40, rows: 15 %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= submit_tag 'Submit'%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

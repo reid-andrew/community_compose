@@ -1,66 +1,75 @@
-<h1 id='score-title'><%= @score.title %></h1>
-<select id='scores-menu' onchange="window.location=this.value">
-  <option>Select a Score</option>
-  <% @score_bank.all_scores.each do |score| %> 
-    <option value="/scores?score_id=<%= score.id %>"><%= score.title %></option>
+<body class='score-show'>
+  <div id='edit-success'>
+  <% if notice %>
+    <%= render partial: 'shared/notice_banner' %>
   <% end %>
-</select>
-<div id="embed-container"></div>
-<%= button_to 'Submit Changes', "/scores/#{@score.id}", method: :patch, id: 'export-xml' %>
-<script>
-  var container = document.getElementById("embed-container");
-  var embed = new Flat.Embed(container, {
-    "width": "100%",
-    "height": "450",
-    "score": "<%= @score.id %>",
-    "embedParams": {
-      "mode": "edit",
-      "branding": false,
-      "appId": "5ecd978ef0aa2b501cf8cf25",
-      "controlsPosition": "top"
-    },
-  });
-  var headers = new Headers();
-    headers.set('Authorization', 'Bearer ' + '<%= FlatService.flat_key%>')
-    headers.set('Content-Type', 'application/json')
-  document.getElementById('export-xml').addEventListener('click', function () {
-    embed.getMusicXML().then(function (xml) {
-      editScore(btoa(xml))
+  </div>
+    <h1 class='username' id='score-title'><%= @score.title %></h1>
+    <select style='width:40%' id='scores-menu' onchange="window.location=this.value">
+      <option>Select a Score</option>
+      <% @score_bank.all_scores.each do |score| %>
+        <option value="/scores?score_id=<%= score.id %>"><%= score.title %></option>
+      <% end %>
+    </select>
+    <div id="embed-container"></div>
+    <div style='width:50%'><%= button_to 'Submit Changes', "/scores/#{@score.id}", method: :patch, id: 'export-xml', remote: true %></div>
+    <script>
+      var container = document.getElementById("embed-container");
+      var embed = new Flat.Embed(container, {
+        "width": "100%",
+        "height": "450",
+        "score": "<%= @score.id %>",
+        "embedParams": {
+          "mode": "edit",
+          "branding": false,
+          "appId": "5ecd978ef0aa2b501cf8cf25",
+          "controlsPosition": "top"
+        },
       });
-    });
-  function editScore(document) { fetch('https://api.flat.io/v2/scores/<%= @score.id %>/revisions' , {
-    method: 'post',
-    headers: headers,
-    body: JSON.stringify({
-            "title": "<%= @score.title %>",
-            "data": `${document}`,
-            "dataEncoding": "base64",
-            "autosave": true
-      }),
-    mode: 'cors'
-    })
-  };
-</script>
-<section class="collaborators">
-  <h3>Collaborators</h3>
-  <ul>
-  <% @score.collaborators.each do |collaborator| %>
-    <li><p><%= link_to collaborator.username, "/users/#{collaborator.id}" %></p></li>
-  <% end %>
-  </ul>
-  <section class="requests">
-    <% if !@score.current_collaborator?(current_user[:username]) && !@score.user_pending_request?(current_user[:username])  %>
-      <%= button_to 'Request to collaborate on this score', '/requests', params: { username: current_user[:username], score_id: @score.id }, class: "btn btn-primary" %>
-    <% elsif @score.owner?(current_user[:username]) && @score.pending_requests.count > 0 %>
-    <h4>Requests to Collaborate</h4>
-      <ul>
-        <% @score.pending_requests.each do |request| %>
-          <li><p><%= request.username %></p>
-            <p><%= button_to 'Approve', "/requests/#{request.id}", method: :delete, params: {type: 'approve', username: current_user[:username], score_id: @score.id}, class: "btn btn-success" %>
-            <p><%= button_to 'Reject', "/requests/#{request.id}", method: :delete, params: {score_id: @score.id}, class: "btn btn-danger" %>
-          </li>
+      var headers = new Headers();
+        headers.set('Authorization', 'Bearer ' + '<%= session[:flat_key] %>')
+        headers.set('Content-Type', 'application/json')
+      document.getElementById('export-xml').addEventListener('click', function () {
+        embed.getMusicXML().then(function (xml) {
+          editScore(btoa(xml))
+          });
+        });
+      function editScore(document) { fetch('https://api.flat.io/v2/scores/<%= @score.id %>/revisions' , {
+        method: 'post',
+        headers: headers,
+        body: JSON.stringify({
+                "title": "<%= @score.title %>",
+                "data": `${document}`,
+                "dataEncoding": "base64",
+                "autosave": true
+          }),
+        mode: 'cors'
+        })
+      };
+    </script>
+    <div class="collabs">
+      <section class="collaborators">
+        <h3 style='font-family: "Arial Black", Gadget, sans-serif;'>Collaborators</h3>
+        <ul>
+        <% @score.collaborators.each do |collaborator| %>
+          <li><p style='text-align:left;'><%= link_to collaborator.username, "/users/#{collaborator.id}" %></p></li>
         <% end %>
-      </ul>
-    <% end %>
-  </section>
-</section>
+        </ul>
+        <section class="requests">
+          <% if !@score.current_collaborator?(current_user[:username]) && !@score.user_pending_request?(current_user[:username])  %>
+            <%= button_to 'Request to collaborate on this score', '/requests', params: { username: current_user[:username], score_id: @score.id }, class: "btn btn-primary" %>
+          <% elsif @score.owner?(current_user[:username]) && @score.pending_requests.count > 0 %>
+          <h4>Requests to Collaborate</h4>
+            <ul>
+              <% @score.pending_requests.each do |request| %>
+                <li><p><%= request.username %></p>
+                  <p><%= button_to 'Approve', "/requests/#{request.id}", method: :delete, params: {type: 'approve', username: current_user[:username], score_id: @score.id}, class: "btn btn-success" %>
+                  <p><%= button_to 'Reject', "/requests/#{request.id}", method: :delete, params: {score_id: @score.id}, class: "btn btn-danger" %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </section>
+      </section>
+    </div>
+</body>

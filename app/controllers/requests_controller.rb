@@ -24,6 +24,6 @@ class RequestsController < ApplicationController
   def add_collaborator(request_params)
     request = Request.find(request_params[:id])
     user = User.find_by(username: request[:username])
-    Score.add_collaborator(request_params[:score_id], user[:flat_id])
+    Score.add_collaborator(request_params[:score_id], user[:flat_id], session[:flat_key])
   end
 end

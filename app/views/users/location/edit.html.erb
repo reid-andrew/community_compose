@@ -1,5 +1,9 @@
-<%= form_tag users_location_path(@user.id), method: :patch do %>
-  <%= label_tag :zip %>
-  <%= text_field_tag :zip, @user.zip %>
-  <%= submit_tag 'Update Location' %>
-<% end %>
+<body class="location">
+  <div class='form-style'>
+    <%= form_tag users_location_path(@user.id), method: :patch do %>
+      <%= label_tag :zip, 'Zip Code:' %>
+      <%= text_field_tag :zip, @user.zip %>
+      <p style='margin: 10px;'><%= submit_tag 'Update Location' %></p>
+    <% end %>
+  </div>
+</body>

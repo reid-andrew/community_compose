@@ -1,25 +1,25 @@
 class Score
   class << self
-    def create(user_id = 'me')
+    def create(user_id = 'me', session_key)
       all = []
-      FlatService.get_scores(user_id).each { |score| all << Score.new(score) }
+      FlatService.get_scores(user_id, session_key).each { |score| all << Score.new(score) }
       all
     end
 
-    def show(score_id)
-      Score.new(FlatService.get_score(score_id))
+    def show(score_id, session_key)
+      Score.new(FlatService.get_score(score_id, session_key))
     end
 
-    def delete(score_id)
-      FlatService.delete_score(score_id)
+    def delete(score_id, session_key)
+      FlatService.delete_score(score_id, session_key)
     end
 
-    def new_score(title)
-      FlatService.create_score(title)
+    def new_score(title, clef, session_key)
+      FlatService.create_score(title, clef, session_key)
     end
 
-    def add_collaborator(score_id, user_id)
-      FlatService.add_collaborator(score_id, user_id)
+    def add_collaborator(score_id, user_id, session_key)
+      FlatService.add_collaborator(score_id, user_id, session_key)
     end
   end
 
@@ -30,6 +30,11 @@ class Score
     @id = score[:id]
     @collaborators = find_collaborators(score[:collaborators])
     @owner = score[:user][:username]
+  end
+
+  def distance(distances)
+    owner = User.find_by(username: @owner)
+    owner.get_distance(distances).round(1)
   end
 
   def current_collaborator?(username)

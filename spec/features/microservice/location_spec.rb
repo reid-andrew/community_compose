@@ -4,9 +4,9 @@ RSpec.describe 'Search Location', type: :feature do
   describe 'As a logged in user when I visit the search page' do
     before(:each) do
       @myself = create(:user, username: 'kevin_m', zip: '80222')
-      @user1 = create(:user, zip: 80280)
-      @user2 = create(:user, zip: 80223)
-      @user3 = create(:user, zip: 90001)
+      @user1 = create(:user, zip: 80280, username: 'tylerpporter')
+      @user2 = create(:user, zip: 80223, username: 'tylerpporter')
+      @user3 = create(:user, zip: 90001, username: 'tylerpporter')
       allow_any_instance_of(ApplicationController).to receive(:current_user)
                                                   .and_return(@myself)
       @json_zips_resp = File.read('spec/fixtures/microservice/location.json')
@@ -44,7 +44,7 @@ RSpec.describe 'Search Location', type: :feature do
 
     it 'can see scores from my area' do
       visit users_explore_index_path
-      
+
       within '.scores' do
         expect(page).to have_css('#score-0')
         expect(page).to have_css('#score-1')

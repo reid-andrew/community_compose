@@ -1,5 +1,12 @@
-<%= form_tag scores_path, method: :post do %>
-  <%= label_tag :title, 'Title:' %>
-  <%= text_field_tag :title %>
-  <%= submit_tag 'Submit Score'%>
-<% end %>
+
+<body class="create-score"> 
+  <div class='form-style'>
+    <%= form_tag scores_path, method: :post do %>
+      <%= label_tag :title, 'Title:' %>
+      <%= text_field_tag :title %>
+      <%= select_tag :clef, "<option>Treble</option><option>Bass</option><option>Both</option>".html_safe %>
+      <p style='margin: 10px;'><%= submit_tag 'Submit Score'%></p>
+    <% end %>
+  </div>
+</body>
+

@@ -24,6 +24,8 @@ gem 'omniauth-facebook'
 gem 'flat_api'
 gem 'rack-cors'
 gem 'bootstrap', '~> 4.3.1'
+gem 'mailboxer', github: 'mailboxer/mailboxer'
+gem 'jquery-rails'
 
 group :development, :test do
   gem 'pry'

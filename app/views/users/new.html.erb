@@ -1,14 +1,29 @@
-<%= form_for @user do |f| %>
-  <%= hidden_field_tag :flat_id, @user.flat_id %>
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <%= f.label :zip %>
-  <%= f.text_field :zip %>
-  <%= f.label :about %>
-  <%= f.text_field :about %>
-  <%= f.label :interests, 'Genres Of Interest' %>
-  <%= f.text_field :interests %>
-  <%= f.label :instruments, 'Instruments I Play' %>
-  <%= f.text_field :instruments %> 
-  <%= f.submit 'Register' %>
-<% end %>
+<body class='user-new'>
+  <div class='new-user-form'>
+    <%= form_for @user do |f| %>
+      <%= hidden_field_tag :flat_id, @user.flat_id %>
+      <p>
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </p>
+      <p>
+        <%= f.label :zip %>
+        <%= f.text_field :zip %>
+      </p>
+      <p>
+        <%= f.label :about %>
+        <%= f.text_field :about %>
+      </p>
+      <p>
+        <%= f.label :interests, 'Genres Of Interest' %>
+        <%= f.text_field :interests %>
+      </p>
+      <p>
+        <%= f.label :instruments, 'Instruments I Play' %>
+        <%= f.text_field :instruments %>
+      </p>
+      <p style='margin: 10px;'><%= f.submit 'Register' %></p>
+    <% end %>
+  </div>
+</body> 
+

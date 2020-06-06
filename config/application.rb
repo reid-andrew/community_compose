@@ -35,5 +35,7 @@ module CommunityCompose
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
+
+    config.assets.paths << "#{Rails.root}/app/assets/videos"
   end
 end
