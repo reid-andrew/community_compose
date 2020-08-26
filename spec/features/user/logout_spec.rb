@@ -11,7 +11,7 @@ describe 'As a logged in user' do
     stub_request(:get, "https://api.flat.io/v2/users/me/scores").to_return(status: 200, body: json_score_resp, headers: {})
     visit users_dashboard_index_path
 
-    click_link "Logout"
+    click_link "Logged in as #{user.username}"
 
     expect(current_path).to eq('/')
     expect(page).to have_content("Successfully logged out")

@@ -1,3 +1,4 @@
+<%= content_tag :div, '', id: 'score', data: { source: @score.id } %>
 <body class='score-show'>
   <div id='edit-success'>
   <% if notice %>
@@ -12,64 +13,52 @@
       <% end %>
     </select>
     <div id="embed-container"></div>
+    <%= javascript_include_tag 'flat' %>
     <div style='width:50%'><%= button_to 'Submit Changes', "/scores/#{@score.id}", method: :patch, id: 'export-xml', remote: true %></div>
-    <script>
-      var container = document.getElementById("embed-container");
-      var embed = new Flat.Embed(container, {
-        "width": "100%",
-        "height": "450",
-        "score": "<%= @score.id %>",
-        "embedParams": {
-          "mode": "edit",
-          "branding": false,
-          "appId": "5ecd978ef0aa2b501cf8cf25",
-          "controlsPosition": "top"
-        },
-      });
-      var headers = new Headers();
-        headers.set('Authorization', 'Bearer ' + '<%= session[:flat_key] %>')
-        headers.set('Content-Type', 'application/json')
-      document.getElementById('export-xml').addEventListener('click', function () {
-        embed.getMusicXML().then(function (xml) {
-          editScore(btoa(xml))
-          });
-        });
-      function editScore(document) { fetch('https://api.flat.io/v2/scores/<%= @score.id %>/revisions' , {
-        method: 'post',
-        headers: headers,
-        body: JSON.stringify({
-                "title": "<%= @score.title %>",
-                "data": `${document}`,
-                "dataEncoding": "base64",
-                "autosave": true
-          }),
-        mode: 'cors'
-        })
-      };
-    </script>
-    <div class="collabs">
-      <section class="collaborators">
-        <h3 style='font-family: "Arial Black", Gadget, sans-serif;'>Collaborators</h3>
-        <ul>
-        <% @score.collaborators.each do |collaborator| %>
-          <li><p style='text-align:left;'><%= link_to collaborator.username, "/users/#{collaborator.id}" %></p></li>
-        <% end %>
-        </ul>
-        <section class="requests">
-          <% if !@score.current_collaborator?(current_user[:username]) && !@score.user_pending_request?(current_user[:username])  %>
-            <%= button_to 'Request to collaborate on this score', '/requests', params: { username: current_user[:username], score_id: @score.id }, class: "btn btn-primary" %>
-          <% elsif @score.owner?(current_user[:username]) && @score.pending_requests.count > 0 %>
-          <h4>Requests to Collaborate</h4>
-            <ul>
-              <% @score.pending_requests.each do |request| %>
-                <li><p><%= request.username %></p>
-                  <p><%= button_to 'Approve', "/requests/#{request.id}", method: :delete, params: {type: 'approve', username: current_user[:username], score_id: @score.id}, class: "btn btn-success" %>
-                  <p><%= button_to 'Reject', "/requests/#{request.id}", method: :delete, params: {score_id: @score.id}, class: "btn btn-danger" %>
-                </li>
+    <div class="my-row">
+      <div class="col-1-of-2">
+        <div class="collabs">
+          <section class="collaborators">
+            <h3 class="collabs__heading">Collaborators</h3>
+            <div class="collabs__contents">
+              <ul>
+              <% @score.collaborators.each do |collaborator| %>
+                <li><p style='text-align:left;'><%= link_to collaborator.username, "/users/#{collaborator.id}" %></p></li>
               <% end %>
-            </ul>
-          <% end %>
-        </section>
+              </ul>
+              <section class="requests">
+                <% if !@score.current_collaborator?(current_user[:username]) && !@score.user_pending_request?(current_user[:username])  %>
+                  <%= button_to 'Request to collaborate on this score', '/requests', params: { username: current_user[:username], score_id: @score.id }, class: "btn btn-primary" %>
+                <% elsif @score.owner?(current_user[:username]) && @score.pending_requests.count > 0 %>
+                <h4>Requests to Collaborate</h4>
+                  <ul>
+                    <% @score.pending_requests.each do |request| %>
+                      <li><p><%= request.username %></p>
+                        <p><%= button_to 'Approve', "/requests/#{request.id}", method: :delete, params: {type: 'approve', username: current_user[:username], score_id: @score.id}, class: "btn btn-success" %>
+                        <p><%= button_to 'Reject', "/requests/#{request.id}", method: :delete, params: {score_id: @score.id}, class: "btn btn-danger" %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </section>
+            </div>
+         </section>
+       </div>
+     </div>
+     <div class="col-1-of-2 u-center-text ">
+      <section class="u-center-text u-margin-bottom-medium">
+        <div class='form-style'>
+          <h2 class="form-style__heading">Create New Score</h2>
+          <div class='form-style__contents'>
+            <%= form_tag scores_path, method: :post do %>
+              <%= label_tag :title, 'Title:', class: "form-style__label" %>
+              <%= text_field_tag :title, "", class: "form-style__input" %>
+              <%= select_tag :clef, "<option>Treble</option><option>Bass</option><option>Both</option>".html_safe %>
+              <p style='margin: 10px;'><%= submit_tag 'Submit Score', class: "btn btn-outline-light btn-lg"%></p>
+            <% end %>
+          </div>
+        </div>
       </section>
-    </div>
+     </div>
+   </div>
 </body>

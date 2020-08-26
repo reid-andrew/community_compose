@@ -1,0 +1,108 @@
+@import "../abstracts/variables";
+
+.nav-bar {
+  font-size: 1.2rem;
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  letter-spacing: .2rem;
+
+  &__dark {
+  color: #fff;
+  }
+
+  &__brand {
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+  }
+
+  &__bg-dark {
+    background-color: #343a40 !important;
+  }
+
+  &__shadow {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
+
+  &__nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: block;
+    padding: 0.5rem 1rem;
+    &:link,
+    &:visited {
+      color: $color-gray-light-1;
+      text-decoration: none;
+      text-transform: uppercase;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    &:hover,
+    &:active {
+      color: $color-secondary-light;
+      transform: scale(1.1);
+    }
+  }
+
+  &__item {
+    margin-bottom: -1px;
+    padding-right: 5rem;
+    -ms-transform: translateY(-10%);
+    transform: translateY(10%);
+  }
+
+  &__image {
+  height: 30px;
+  }
+
+  &__button {
+    padding: 9px 25px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3 ease 0s;
+    color: $color-white;
+    // top: 40%;
+    display: inline-block;
+    -ms-transform: translateY(10%);
+    transform: translateY(-10%);
+
+      &__link {
+        display: block;
+        &:link,
+        &:visited {
+        color: $color-gray-light-1;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+      &:hover,
+      &:active {
+        // color: 
+        transform: scale(1.08);
+      }
+    }
+  }
+}

@@ -1,11 +1,12 @@
 <body class='profile'>
   <div class="profile-card">
-    <img src= "<%= @user.picture(session[:flat_key]) %>" alt="Profile" class='profile-pic' width='400' height='400'>
-    <h1 class='username'><%= @user.username %></h1>
-    <p class="profile-title"><%= @user.about %></p>
-    <div class="profile-info">
+    <img src= "<%= @user.picture(session[:flat_key]) %>" alt="Profile" class='profile-card__pic' width='400' height='400'>
+    <h1 class='profile-card__username'><%= @user.username %></h1>
+    <p class="profile-card__title"><%= @user.about %></p>
+    <div class="profile-card__info">
       <p><span style='font-weight:bold;'>Genres Of Interest:</span> <span style='color: #0384fc;'><%= @user.interests %></span></p>
       <p><span style='font-weight:bold;'>Instruments I Play:</span> <span style='color: #0384fc;'><%= @user.instruments %></span></p>
+      <p><span style='font-weight:bold;'>Location:</span> <span style='color: #0384fc;'><%= @user.zip %></span></p>
       <% if !(@user.id == current_user.id) %>
         <p class='message'><%= link_to 'Message', new_users_conversation_path(current_user) %> </p>
       <% end %>

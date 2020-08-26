@@ -13,117 +13,29 @@
  *= require_tree .
  *= require_self
  */
-body.home {
-  background: url(asset_path(background_splash2)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-body.score-show {
-  background: url(asset_path(background_splash2)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
 
-body.dashboard {
-  background: url(asset_path(piano)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
+ // VARIABLES/MIXINS
+ @import "abstracts/mixins";
+ @import "abstracts/variables";
+ 
+ // BASE
+ @import "base/base";
+ @import "base/body";
+ @import "base/utilities";
+ @import "base/typography";
 
-body.explore {
-  background: url(asset_path(close_up)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body.profile {
-  background: url(asset_path(violin)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body.location {
-  background: url(asset_path(viola)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body.create-score {
-  background: url(asset_path(background_splash2)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body.user-new {
-  background: url(asset_path(background_splash2)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body.conversation-index {
-  background: url(asset_path(violin)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body.conversation-new {
-  background: url(asset_path(viola)) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.home_video {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  object-fit: cover;
-  top: 0;
-  z-index: -2;
-}
-
-.splash_image {
-  width: 40%;
-  margin-bottom: 10px;
-}
-
-.nav_image {
-  height: 30px;
-}
-
-#notice-wrapper { 
-  position: absolute;
-  width: 100%;
-  z-index: 999;
-  background: rgba(144, 248, 175, 0.5)
-}
-
-.notice {
-  padding: 10px;
-  text-align: center;
-  margin: 0;
-  font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: 1px;
-}
+  // COMPONENTS
+ @import "components/flash_notice";
+ @import "components/score_card";
+ @import "components/nav_bar";
+ @import "components/message";
+ @import "components/form";
+ 
+ // GRID
+ @import "layout/grid";
+ 
+ // PAGE STYLING
+ @import "pages/profile";
+ @import "pages/score";
+ @import "pages/home";
+ 

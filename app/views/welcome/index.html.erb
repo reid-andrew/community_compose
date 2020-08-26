@@ -4,12 +4,12 @@
     <div class="col-sm">
       <div class='text-center' style='margin-top:10px;'>
         <%= image_tag "logo_transparent_HORIZ.png", :class => "splash_image" %>
-        <div class="col-sm text-center">
+        <div class="col-sm text-center u-margin-bottom-medium">
           <p class="lead" style='color:#0384fc;'>
              <span class='tag-box'>Fostering collaboration between musicians in your neighborhood.</span>
           </p>
         </div>
-        <div style='margin-top:40px;margin-bottom:40px;'>
+        <div>
           <%= button_to 'Get Started', "https://flat.io/auth/oauth?client_id=#{ENV['CLIENT_ID']}&response_type=code&scope=account.public_profile scores&redirect_uri=#{ENV['CALLBACK']}",
           method: :get, params: { client_id: ENV['CLIENT_ID'], response_type: 'code', scope: 'account.public_profile scores', redirect_uri: ENV['CALLBACK'] },
           class: 'btn btn-outline-light btn-lg text-center'

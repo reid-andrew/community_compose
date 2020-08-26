@@ -16,14 +16,16 @@
           </tr>
         </tbody>
       </table>
-    <h2 class='center-headers'>My Scores</h2>
-    <section class='scores'>
+      <div class="u-center-text">
+        <h2 class='heading-secondary'>My Scores</h2>
+      </div>
+    <section class='scores u-margin-bottom-medium'>
       <div class='center-box'>
         <div class="card-columns">
           <% if !(@flat_user.scores.empty?) %>
             <% @flat_user.scores.each_with_index do |score, index| %>
-            <div class="card border-primary mb-3 h-5 " style="width: 95%; height: 12rem; border: 3px solid;">
-              <div id="score-<%= index %>" class="card-body">
+            <div class="score-card border-primary mb-3 h-5 " style="width: 95%; height: 12rem; border: 3px solid;">
+              <div id="score-<%= index %>" class="score-card__body">
                 <h3 class="card-title" style='text-align:center;'><%= link_to score.title, scores_path(:params => {score_id: score.id}) %></h3>
                 <h6 class="card-subtitle mb-2 text-muted" style='text-align:center;'><%= link_to 'Delete', score_path(score.id), method: :delete%></h6>
               </div>
@@ -31,6 +33,19 @@
             <% end %>
           <% end %>
         </div>
+    </section>
+    <section class="create-score u-center-text u-margin-bottom-medium">
+      <div class='form-style'>
+        <h2 class="form-style__heading">Create New Score</h2>
+        <div class='form-style__contents'>
+          <%= form_tag scores_path, method: :post do %>
+            <%= label_tag :title, 'Title:', class: "form-style__label" %>
+            <%= text_field_tag :title, "", class: "form-style__input" %>
+            <%= select_tag :clef, "<option>Treble</option><option>Bass</option><option>Both</option>".html_safe %>
+            <p style='margin: 10px;'><%= submit_tag 'Submit Score', class: "btn btn-outline-light btn-lg"%></p>
+          <% end %>
+        </div>
+      </div>
     </section>
   </div>
 </body>

@@ -1,23 +1,25 @@
 <body class='conversation-index'>
-  <h1 class='exp-header'>Your Conversations</h1>
-  <div class="msg-card">
-    <% @conversations_facade.conversations.each do |conversation| %>
-      <div id='conversation-<%= conversation.id%>'>
-        <div class="msg-body-card">
-          <% if !(conversation.is_trashed?(current_user)) %>
-          <br> Conversation with <%=conversation.participants.select { |participant| participant[:username] != current_user.username }.first.username %> </br>
-            <p><span class='user-comment'><%= link_to conversation.subject, users_conversation_path(conversation)%></span></p>
-            <%= link_to 'Leave Conversation', users_conversation_path(conversation), method: :delete %>
-          <% end %>
+  <section class="u-center-text u-margin-top-medium">
+    <h1 class='heading-secondary u-margin-bottom-small'>Your Conversations</h1>
+    <div class="msg-card">
+      <% @conversations_facade.conversations.each do |conversation| %>
+        <div id='conversation-<%= conversation.id%>'>
+          <div class="msg-body-card">
+            <% if !(conversation.is_trashed?(current_user)) %>
+            <br> Conversation with <%=conversation.participants.select { |participant| participant[:username] != current_user.username }.first.username %> </br>
+              <p><span class='user-comment'><%= link_to conversation.subject, users_conversation_path(conversation)%></span></p>
+              <%= link_to 'Leave Conversation', users_conversation_path(conversation), method: :delete %>
+            <% end %>
+          </div>
         </div>
+      <% end %>
+      <div style='padding:20px;'>
+        <button type='button' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#new-conversation'>
+          Create New Conversation
+        </button>
       </div>
-    <% end %>
-    <div style='padding:20px;'>
-      <button type='button' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#new-conversation'>
-        Create New Conversation
-      </button>
     </div>
-  </div>
+  </section>
 </body>
 
 
